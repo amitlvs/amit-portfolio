@@ -5,31 +5,24 @@ export const AboutStory = () => {
   const milestones = [
     {
       year: 'DEC 2024 - PRESENT',
-      role: 'SENIOR SOFTWARE ENGINEER',
+      role: 'LEAD FULL STACK DEVELOPER',
       company: 'TATA ELXSI',
-      desc: 'Leading frontend development for Tatvalens.com, managing complex UI flows, role-based rendering, secure session handling, and integrating AI agents into workflows to automate manual effort.',
+      desc: 'Directing full-stack web development, handling team collaboration and task assignments, designing complex interactive UI flows, implementing role-based dynamic rendering, and establishing secure session management models.',
       icon: Cpu,
     },
     {
       year: 'JAN 2024 - DEC 2024',
       role: 'SENIOR FULL STACK ENGINEER',
       company: 'PRIMUS GLOBAL TECHNOLOGY',
-      desc: 'Architected subscription-based SaaS frameworks utilizing Angular and AWS. Engineered an AI-powered disease recovery tracker with payment systems using NGRX and RxJS.',
+      desc: 'Architected subscription-based SaaS platforms utilizing Angular and AWS cloud infrastructure. Built state management patterns using NGRX and RxJS, and integrated custom secure payment frameworks.',
       icon: Terminal,
     },
     {
       year: 'OCT 2021 - JAN 2024',
       role: 'SENIOR SYSTEM ENGINEER',
       company: 'INFOSYS LIMITED',
-      desc: 'Delivered ROCS FedEx web applications using Angular, Node.js, and microservices. Developed a custom Bootstrap library reused across multiple engineering teams.',
+      desc: 'Designed and deployed enterprise-level web applications using Angular, Node.js, and microservice architectures. Built shared UI component libraries reused across multiple project groups.',
       icon: Shield,
-    },
-    {
-      year: 'DEC 2019 - JAN 2021',
-      role: 'GRADUATE APPRENTICE TRAINEE',
-      company: 'APOLLO TYRES LTD.',
-      desc: 'Supervised shift operations and implemented process optimizations that improved machine efficiency to 85% and reduced product defects by 20%.',
-      icon: Terminal,
     }
   ];
 
@@ -69,7 +62,7 @@ export const AboutStory = () => {
               <div className="text-[10px] font-mono text-primary mb-6">SYS_SUMMARY // INTEL</div>
               <h3 className="text-2xl font-black tracking-tight mb-4 text-white leading-none">CRAFTING ROBUST INFRASTRUCTURE</h3>
               <p className="text-muted-foreground text-sm leading-relaxed">
-                I build digital architectures that reconcile visual excellence with rigorous performance metrics. My approach leverages modern frontends, performant microservices, and autonomous pipelines to yield resilient digital experiences.
+                With 5+ years of professional experience in software development, I work as a Senior Software Developer designing and building digital architectures that reconcile visual excellence with rigorous performance metrics. My approach leverages modern frontends, performant microservices, and autonomous pipelines to yield resilient digital experiences.
               </p>
             </motion.div>
 
@@ -112,7 +105,7 @@ export const AboutStory = () => {
                   {/* Content block */}
                   <div className="border border-white/5 hover:border-white/10 bg-white/[0.01] hover:bg-white/[0.02] p-8 transition-all w-full relative">
                     <div className="text-[10px] font-mono text-primary mb-3">{m.year}</div>
-                    <h4 className="text-xl font-bold tracking-tight text-white leading-none mb-1">{m.role}</h4>
+                    <h4 className="text-xl font-bold tracking-tight text-white leading-tight mb-1">{m.role}</h4>
                     <div className="text-xs font-mono text-white/40 mb-4">{m.company}</div>
                     <p className="text-muted-foreground text-sm leading-relaxed">{m.desc}</p>
                   </div>

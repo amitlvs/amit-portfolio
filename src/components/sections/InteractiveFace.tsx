@@ -64,7 +64,7 @@ export const InteractiveFace = () => {
             transition={{ delay: 0.55 }}
             className="text-primary font-mono text-[10px] md:text-sm tracking-[0.45em] uppercase mt-3"
           >
-            [ Senior_Software_Engineer ]
+            [ Senior_Software_Developer ]
           </motion.p>
         </motion.div>
 
@@ -79,7 +79,13 @@ export const InteractiveFace = () => {
           style={{ perspective: 900 }}
         >
           {/* Photo */}
-          <div className="absolute inset-0 rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_60px_rgba(0,0,0,0.7)] bg-zinc-900">
+          <div 
+            className="absolute inset-0 overflow-hidden"
+            style={{
+              maskImage: 'radial-gradient(ellipse at 50% 45%, black 45%, transparent 75%)',
+              WebkitMaskImage: 'radial-gradient(ellipse at 50% 45%, black 45%, transparent 75%)',
+            }}
+          >
             {!imgError ? (
               <img
                 src={AMIT_PHOTO}
@@ -119,7 +125,7 @@ export const InteractiveFace = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.25 }}
-                className="absolute inset-0 z-20 pointer-events-none rounded-2xl overflow-hidden border-2 border-primary/35 shadow-[0_0_24px_rgba(0,255,200,0.18)]"
+                className="absolute inset-0 z-20 pointer-events-none overflow-hidden"
               >
                 {/* Scanning line */}
                 <motion.div
@@ -160,6 +166,13 @@ export const InteractiveFace = () => {
             <span className="relative z-10 text-white font-black tracking-tighter uppercase">Contact_System</span>
           </a>
         </motion.div>
+      </div>
+
+      {/* Custom Curve Shape Divider */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-20 translate-y-[1px]">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-[60px] text-background fill-current">
+          <path d="M0,0 C150,90 350,120 600,100 C850,80 1050,90 1200,60 L1200,120 L0,120 Z"></path>
+        </svg>
       </div>
 
       {/* Custom cursor dot */}
