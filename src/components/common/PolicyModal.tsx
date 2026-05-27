@@ -1,6 +1,7 @@
 import { X } from 'lucide-react';
 import { useEffect } from 'react';
 
+
 interface PolicyModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -27,11 +28,11 @@ export const PolicyModal = ({ isOpen, onClose, type }: PolicyModalProps) => {
   return (
     <div className="fixed inset-0 z-[999] flex items-center justify-center p-4">
       {/* Overlay */}
-      <div 
-        className="absolute inset-0 bg-black/85 backdrop-blur-sm transition-opacity" 
+      <div
+        className="absolute inset-0 bg-black/85 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
-      
+
       {/* Modal Container */}
       <div className="relative z-10 w-full max-w-2xl max-h-[85vh] overflow-y-auto bg-zinc-950 border border-white/10 rounded-xl p-6 md:p-8 shadow-2xl glass flex flex-col">
         {/* Header */}
@@ -42,7 +43,7 @@ export const PolicyModal = ({ isOpen, onClose, type }: PolicyModalProps) => {
               {isTerms ? 'System_Protocol // Terms_of_Use' : 'Data_Security // Privacy_Policy'}
             </span>
           </div>
-          <button 
+          <button
             onClick={onClose}
             className="text-white/40 hover:text-white transition-colors p-1"
           >
@@ -56,7 +57,7 @@ export const PolicyModal = ({ isOpen, onClose, type }: PolicyModalProps) => {
             <>
               <h2 className="text-xl font-black text-white tracking-tight uppercase">TERMS OF USE</h2>
               <p className="text-[11px] font-mono text-white/40">LAST UPDATED: MAY 27, 2026</p>
-              
+
               <section className="space-y-2">
                 <h3 className="font-mono text-xs text-primary uppercase tracking-wider">01. ACCEPTANCE OF TERMS</h3>
                 <p>
