@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { Mail, ShieldCheck, Wifi } from 'lucide-react';
 import { Github, Linkedin } from '@/components/ui/icons';
+import { PolicyModal } from '@/components/common/PolicyModal';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [modalType, setModalType] = useState<'terms' | 'privacy' | null>(null);
 
   return (
     <footer className="border-t border-white/5 bg-background py-16 px-6 relative overflow-hidden">
@@ -66,10 +69,16 @@ export const Footer = () => {
       <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 relative z-10 text-[10px] font-mono text-white/30">
         <p>&copy; {currentYear} AMIT KUMAR. ALL RIGHTS RESERVED. TRANSMISSION_SECURE.</p>
         <div className="flex space-x-6">
-          <a href="#" className="hover:text-primary">TERM_OF_USE</a>
-          <a href="#" className="hover:text-primary">PRIVACY_POLICY</a>
+          <button onClick={() => setModalType('terms')} className="hover:text-primary transition-colors">TERM_OF_USE</button>
+          <button onClick={() => setModalType('privacy')} className="hover:text-primary transition-colors">PRIVACY_POLICY</button>
         </div>
       </div>
+
+      <PolicyModal 
+        isOpen={modalType !== null} 
+        onClose={() => setModalType(null)} 
+        type={modalType || 'terms'} 
+      />
     </footer>
   );
 };
