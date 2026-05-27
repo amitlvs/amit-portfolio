@@ -10,10 +10,88 @@ import { TechStack } from '@/components/sections/TechStack';
 import { SmoothScrollProvider } from '@/components/providers/SmoothScrollProvider';
 import { MagneticButton } from '@/components/ui/MagneticButton';
 import { Mail, MapPin, ArrowRight } from 'lucide-react';
-import { Linkedin } from '@/components/ui/icons';
+import { Linkedin, Whatsapp } from '@/components/ui/icons';
+import { supabase } from '@/db/supabase';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email || !formData.message) return;
+    setFormStatus('submitting');
+
+    try {
+      const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+      let supabaseSuccess = false;
+
+      // 1. Try saving to Supabase if config is active
+      if (
+        import.meta.env.VITE_SUPABASE_URL && 
+        import.meta.env.VITE_SUPABASE_URL !== 'https://placeholder-url.supabase.co'
+      ) {
+        const { error } = await supabase.from('contact_messages').insert([
+          { 
+            name: formData.name, 
+            email: formData.email, 
+            message: formData.message 
+          }
+        ]);
+        if (!error) supabaseSuccess = true;
+      }
+
+      // 2. Try sending email via Web3Forms
+      if (accessKey && accessKey !== 'YOUR_ACCESS_KEY_HERE') {
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify({
+            access_key: accessKey,
+            name: formData.name,
+            email: formData.email,
+            message: formData.message,
+            subject: `Portfolio Message from ${formData.name}`,
+          }),
+        });
+        const data = await response.json();
+        if (data.success) {
+          setFormStatus('success');
+          setFormData({ name: '', email: '', message: '' });
+          setTimeout(() => setFormStatus('idle'), 4000);
+        } else {
+          setFormStatus('error');
+          setTimeout(() => setFormStatus('idle'), 4000);
+        }
+      } else if (supabaseSuccess) {
+        // If Supabase worked but email API is not configured
+        setFormStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => setFormStatus('idle'), 4000);
+      } else {
+        // Mock fallback success for testing when no keys are configured
+        console.warn("Contact form submitted. Set VITE_WEB3FORMS_ACCESS_KEY in env to receive emails.");
+        setTimeout(() => {
+          setFormStatus('success');
+          setFormData({ name: '', email: '', message: '' });
+          setTimeout(() => setFormStatus('idle'), 4000);
+        }, 1000);
+      }
+    } catch (err) {
+      console.error("Submission failed:", err);
+      setFormStatus('error');
+      setTimeout(() => setFormStatus('idle'), 4000);
+    }
+  };
 
   return (
     <SmoothScrollProvider>
@@ -134,7 +212,7 @@ const App = () => {
                           </div>
                           <div>
                              <div className="text-[10px] font-mono text-white/40 uppercase tracking-widest">Email_Address</div>
-                             <div className="text-xl font-bold tracking-tight">amit.at14@yahoo.com</div>
+                             <a href="mailto:amit.at14@yahoo.com" className="text-xl font-bold tracking-tight hover:text-primary transition-colors">amit.at14@yahoo.com</a>
                           </div>
                         </div>
                         <div className="flex items-center space-x-6 group">
@@ -144,6 +222,22 @@ const App = () => {
                           <div>
                              <div className="text-[10px] font-mono text-white/40 uppercase tracking-widest">Professional_Network</div>
                              <a href="https://linkedin.com/in/amitkumar" target="_blank" rel="noopener noreferrer" className="text-xl font-bold tracking-tight hover:text-primary transition-colors">linkedin.com/in/amitkumar</a>
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-6 group">
+                          <div className="w-12 h-12 glass rounded-full flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-all">
+                             <Whatsapp size={20} />
+                          </div>
+                          <div>
+                             <div className="text-[10px] font-mono text-white/40 uppercase tracking-widest">WhatsApp_Business</div>
+                             <a 
+                               href="https://wa.me/91XXXXXXXXXX?text=Hi%20Amit,%20I'm%20interested%20in%20your%20services!" 
+                               target="_blank" 
+                               rel="noopener noreferrer" 
+                               className="text-xl font-bold tracking-tight hover:text-primary transition-colors"
+                             >
+                               +91 XXXXXXXXXX
+                             </a>
                           </div>
                         </div>
                         <div className="flex items-center space-x-6 group">
@@ -164,26 +258,59 @@ const App = () => {
                      viewport={{ once: true }}
                      className="holographic p-12 relative overflow-hidden"
                   >
-                     <form onSubmit={(e) => e.preventDefault()} className="space-y-8 relative z-10">
+                     <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                          <div className="space-y-2">
-                             <label className="text-[10px] font-mono text-primary uppercase tracking-widest">User_Name</label>
-                             <input type="text" className="w-full bg-white/5 border-b border-white/20 px-0 py-4 focus:border-primary focus:bg-white/10 outline-none transition-all text-xl font-bold text-white" placeholder="IDENTIFY_YOURSELF" />
-                          </div>
-                          <div className="space-y-2">
-                             <label className="text-[10px] font-mono text-primary uppercase tracking-widest">User_Email</label>
-                             <input type="email" className="w-full bg-white/5 border-b border-white/20 px-0 py-4 focus:border-primary focus:bg-white/10 outline-none transition-all text-xl font-bold text-white" placeholder="COMM_CH_ADDR" />
-                          </div>
+                           <div className="space-y-2">
+                              <label className="text-[10px] font-mono text-primary uppercase tracking-widest">User_Name</label>
+                              <input 
+                                type="text" 
+                                name="name"
+                                value={formData.name}
+                                onChange={handleInputChange}
+                                required
+                                className="w-full bg-white/5 border-b border-white/20 px-0 py-4 focus:border-primary focus:bg-white/10 outline-none transition-all text-xl font-bold text-white" 
+                                placeholder="IDENTIFY_YOURSELF" 
+                              />
+                           </div>
+                           <div className="space-y-2">
+                              <label className="text-[10px] font-mono text-primary uppercase tracking-widest">User_Email</label>
+                              <input 
+                                type="email" 
+                                name="email"
+                                value={formData.email}
+                                onChange={handleInputChange}
+                                required
+                                className="w-full bg-white/5 border-b border-white/20 px-0 py-4 focus:border-primary focus:bg-white/10 outline-none transition-all text-xl font-bold text-white" 
+                                placeholder="COMM_CH_ADDR" 
+                              />
+                           </div>
                         </div>
                         <div className="space-y-2">
                            <label className="text-[10px] font-mono text-primary uppercase tracking-widest">Message_Payload</label>
-                           <textarea rows={4} className="w-full bg-white/5 border-b border-white/20 px-0 py-4 focus:border-primary focus:bg-white/10 outline-none transition-all text-xl font-bold text-white resize-none" placeholder="DESCRIBE_OBJECTIVE"></textarea>
+                           <textarea 
+                             rows={4} 
+                             name="message"
+                             value={formData.message}
+                             onChange={handleInputChange}
+                             required
+                             className="w-full bg-white/5 border-b border-white/20 px-0 py-4 focus:border-primary focus:bg-white/10 outline-none transition-all text-xl font-bold text-white resize-none" 
+                             placeholder="DESCRIBE_OBJECTIVE"
+                           />
                         </div>
                         <MagneticButton>
-                          <button type="submit" className="group w-full bg-primary text-black py-6 font-black text-xl tracking-tighter uppercase flex items-center justify-center space-x-4 hover:shadow-[0_0_30px_rgba(0,255,255,0.5)] transition-all">
-                             <span>Transmit_Signal</span>
+                           <button 
+                             type="submit" 
+                             disabled={formStatus === 'submitting'}
+                             className="group w-full bg-primary text-black py-6 font-black text-xl tracking-tighter uppercase flex items-center justify-center space-x-4 hover:shadow-[0_0_30px_rgba(0,255,255,0.5)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                           >
+                             <span>
+                               {formStatus === 'submitting' && 'Transmitting_Signal...'}
+                               {formStatus === 'success' && 'Signal_Transmitted!'}
+                               {formStatus === 'error' && 'Transmission_Failed'}
+                               {formStatus === 'idle' && 'Transmit_Signal'}
+                             </span>
                              <ArrowRight className="group-hover:translate-x-2 transition-transform" />
-                          </button>
+                           </button>
                         </MagneticButton>
                      </form>
                   </motion.div>

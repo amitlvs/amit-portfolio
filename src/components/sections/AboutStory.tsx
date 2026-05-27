@@ -1,7 +1,122 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Terminal, Shield, Cpu, Activity } from 'lucide-react';
+import { Terminal, Shield, Cpu } from 'lucide-react';
 
+// ── SYSTEM TICKER WIDGET ──
+const TickerPanel = ({ uptime, time }: { uptime: string; time: string }) => {
+  return (
+    <div className="glass border border-white/10 rounded-xl p-5 flex flex-col w-full h-[190px] font-mono justify-between bg-zinc-950/20">
+      <div className="w-full flex items-center justify-between text-[8px] text-white/50 border-b border-white/5 pb-1.5">
+        <span>SYS_STATUS // DATA_PULSE</span>
+        <span className="text-primary animate-pulse">● RUNNING</span>
+      </div>
+      
+      <div className="flex flex-col gap-2.5 my-2">
+        <div className="flex justify-between items-center">
+          <span className="text-[9px] text-white/40">SYS_UPTIME:</span>
+          <span className="text-[11px] text-primary font-bold tracking-wider">{uptime}</span>
+        </div>
+        <div className="flex justify-between items-center">
+          <span className="text-[9px] text-white/40">LOC_TIME_IST:</span>
+          <span className="text-[11px] text-white tracking-wider">{time}</span>
+        </div>
+        <div className="flex justify-between items-center">
+          <span className="text-[9px] text-white/40">LATENCY:</span>
+          <span className="text-[11px] text-emerald-400 font-bold">14ms</span>
+        </div>
+        <div className="flex justify-between items-center">
+          <span className="text-[9px] text-white/40">PORTFOLIO_VER:</span>
+          <span className="text-[11px] text-white/70">v2.2.0-prod</span>
+        </div>
+      </div>
+      
+      <div className="w-full bg-white/5 h-[3px] rounded-full overflow-hidden">
+        <motion.div 
+          className="bg-primary h-full"
+          animate={{ width: ['0%', '100%'] }}
+          transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+        />
+      </div>
+    </div>
+  );
+};
+
+// ── TERMINAL LOGS WIDGET ──
+const TerminalLogsPanel = () => {
+  const [logs, setLogs] = useState<string[]>([]);
+  
+  useEffect(() => {
+    const logPool = [
+      'INIT_SECURITY_HANDSHAKE... SUCCESS',
+      'ESTABLISHING SECURE CONNECTION TO SUPABASE',
+      'DB_POOLED: LOADED 10 APPAREL ITEMS',
+      'API_ROUTE //GET /api/products - 200 OK',
+      'PORTFOLIO_STATE // MOUNTED // READY',
+      'COMPILING STYLESHEETS // VITE-REPORTER',
+      'PRE-FETCHING ASSETS: my-img.png [OK]',
+      'ANALYZE_VISITOR: TARGET LOCKED',
+      'SYSTEM STATUS: STABLE // LATENCY 14MS',
+      'AI_AGENT // ORCHESTRATION ENGINE ONLINE'
+    ];
+    
+    setLogs(logPool.slice(0, 3));
+    
+    const interval = setInterval(() => {
+      const randomLog = logPool[Math.floor(Math.random() * logPool.length)];
+      setLogs(prev => {
+        const next = [...prev.slice(1), `[${new Date().toLocaleTimeString()}] ${randomLog}`];
+        return next;
+      });
+    }, 4500);
+    
+    return () => clearInterval(interval);
+  }, []);
+  
+  return (
+    <div className="glass border border-white/10 rounded-xl p-5 flex flex-col w-full h-[190px] font-mono justify-between bg-zinc-950/20 text-left">
+      <div className="w-full flex items-center justify-between text-[8px] text-white/50 border-b border-white/5 pb-1.5">
+        <span>SYS_CONSOLE // STDOUT</span>
+        <span className="text-emerald-400 font-bold">ACTIVE</span>
+      </div>
+      <div className="flex flex-col gap-1.5 my-2 flex-grow overflow-hidden text-[9px] text-white/70">
+        {logs.map((log, index) => (
+          <div key={index} className="truncate select-none font-mono text-emerald-400/90">
+            <span className="text-white/30">&gt; </span>
+            {log}
+          </div>
+        ))}
+      </div>
+      <div className="text-[7px] text-white/30 font-mono text-right select-none">
+        STREAMING_LOGS_ON_PORT_80
+      </div>
+    </div>
+  );
+};
+
+// ── MAIN ABOUTSTORY SECTION ──
 export const AboutStory = () => {
+  const [time, setTime] = useState('');
+  const [uptime, setUptime] = useState('');
+
+  // Update Ticker Times
+  useEffect(() => {
+    const startTime = Date.now();
+    const interval = setInterval(() => {
+      const now = new Date();
+      const options = { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+      // @ts-ignore
+      setTime(now.toLocaleTimeString('en-US', options));
+      
+      const diff = Date.now() - startTime;
+      const hrs = Math.floor(diff / 3600000).toString().padStart(2, '0');
+      const mins = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
+      const secs = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
+      const ms = Math.floor((diff % 1000) / 10).toString().padStart(2, '0');
+      setUptime(`${hrs}:${mins}:${secs}.${ms}`);
+    }, 50);
+    return () => clearInterval(interval);
+  }, []);
+
   const milestones = [
     {
       year: 'DEC 2024 - PRESENT',
@@ -27,7 +142,7 @@ export const AboutStory = () => {
   ];
 
   return (
-    <section id="story" className="py-32 px-6 bg-background relative overflow-hidden">
+    <section id="story" className="py-32 px-6 bg-background relative overflow-hidden border-t border-white/5">
       {/* Mesh gradients */}
       <div className="absolute top-1/4 left-0 w-[400px] h-[400px] bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
@@ -50,8 +165,8 @@ export const AboutStory = () => {
         {/* Story Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           
-          {/* Narrative Column */}
-          <div className="lg:col-span-5 space-y-8">
+          {/* Narrative & Active Diagnostics Column */}
+          <div className="lg:col-span-5 flex flex-col gap-6">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -66,21 +181,16 @@ export const AboutStory = () => {
               </p>
             </motion.div>
 
+            {/* Diagnostic Ticker Panels (Moved here for clean first-view page structure) */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="p-10 border border-white/5 bg-white/[0.01] relative"
+              className="flex flex-col sm:flex-row lg:flex-col gap-6 w-full"
             >
-              <div className="absolute top-0 left-0 w-2 h-2 bg-primary" />
-              <div className="flex items-center space-x-4 mb-4">
-                <Activity className="text-primary" size={20} />
-                <span className="text-xs font-mono text-white tracking-widest uppercase">SYS_METRICS_STATUS</span>
-              </div>
-              <p className="text-xs text-white/50 leading-relaxed font-mono">
-                CORE_TEMP: NORMAL // LOAD_AVG: 0.12 // RAM_USAGE: 4.8GB / 16GB // DISPATCH_QUEUE: ACTIVE
-              </p>
+              <TickerPanel uptime={uptime} time={time} />
+              <TerminalLogsPanel />
             </motion.div>
           </div>
 
