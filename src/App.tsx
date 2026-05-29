@@ -174,10 +174,10 @@ const App = () => {
                       whileInView={{ opacity: 1 }}
                       viewport={{ once: true }}
                       transition={{ delay: i * 0.1 }}
-                      className="p-12 bg-background hover:bg-white/[0.02] transition-colors group relative overflow-hidden"
+                      className="p-8 sm:p-12 bg-background hover:bg-white/[0.02] transition-colors group relative overflow-hidden"
                     >
-                      <div className="text-[10px] font-mono text-primary mb-12">NODE_ID: {i + 1001}</div>
-                      <h3 className="text-3xl font-black tracking-tighter mb-6 group-hover:neon-text transition-all leading-none">{s.title}</h3>
+                      <div className="text-[10px] font-mono text-primary mb-6 sm:mb-12">NODE_ID: {i + 1001}</div>
+                      <h3 className="text-2xl sm:text-3xl font-black tracking-tighter mb-6 group-hover:neon-text transition-all leading-none break-words">{s.title}</h3>
                       <p className="text-muted-foreground text-sm leading-relaxed mb-8">{s.desc}</p>
                       <div className="flex flex-wrap gap-2">
                         {s.tags.map(tag => (
@@ -256,7 +256,7 @@ const App = () => {
                   initial={{ opacity: 0, x: 50 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  className="holographic p-12 relative overflow-hidden"
+                  className="holographic p-6 sm:p-8 md:p-12 relative overflow-hidden"
                 >
                   <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -268,7 +268,7 @@ const App = () => {
                           value={formData.name}
                           onChange={handleInputChange}
                           required
-                          className="w-full bg-white/5 border-b border-white/20 px-0 py-4 focus:border-primary focus:bg-white/10 outline-none transition-all text-xl font-bold text-white"
+                          className="w-full bg-white/5 border-b border-white/20 px-4 py-4 focus:border-primary focus:bg-white/10 outline-none transition-all text-xl font-bold text-white"
                           placeholder="IDENTIFY_YOURSELF"
                         />
                       </div>
@@ -280,7 +280,7 @@ const App = () => {
                           value={formData.email}
                           onChange={handleInputChange}
                           required
-                          className="w-full bg-white/5 border-b border-white/20 px-0 py-4 focus:border-primary focus:bg-white/10 outline-none transition-all text-xl font-bold text-white"
+                          className="w-full bg-white/5 border-b border-white/20 px-4 py-4 focus:border-primary focus:bg-white/10 outline-none transition-all text-xl font-bold text-white"
                           placeholder="COMM_CH_ADDR"
                         />
                       </div>
@@ -293,7 +293,7 @@ const App = () => {
                         value={formData.message}
                         onChange={handleInputChange}
                         required
-                        className="w-full bg-white/5 border-b border-white/20 px-0 py-4 focus:border-primary focus:bg-white/10 outline-none transition-all text-xl font-bold text-white resize-none"
+                        className="w-full bg-white/5 border-b border-white/20 px-4 py-4 focus:border-primary focus:bg-white/10 outline-none transition-all text-xl font-bold text-white resize-none"
                         placeholder="DESCRIBE_OBJECTIVE"
                       />
                     </div>
