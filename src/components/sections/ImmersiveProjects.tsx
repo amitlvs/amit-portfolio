@@ -3,8 +3,10 @@ import { useRef } from 'react';
 import { ArrowUpRight, Lock, Play } from 'lucide-react';
 import quberThumbail from "../../assets/quber_thumnail.jpeg";
 import stagThumbail from "../../assets/stag_beetle_thumbnail.jpeg";
+import marsThumbail from "../../assets/mars_ecom-thumbnail.jpeg";
 import quberDemo from '../../assets/quber-demo.mp4';
 import stagDemo from '../../assets/stag-beetle-demo.mp4';
+import marsDemo from '../../assets/mars_ecom-demo.mp4';
 
 const projects = [
   {
@@ -28,6 +30,17 @@ const projects = [
     link: 'https://stag-beetle-ecom.vercel.app',
     isShareable: true,
     video: stagDemo
+  },
+  {
+    title: 'MARS ECOMMERCE',
+    category: 'ECOM_PLATFORM',
+    image: marsThumbail,
+    metrics: 'LIVE_DEPLOYMENT',
+    tagline: 'High-performance Ecommerce Platform',
+    tags: ['SHOPIFY', 'THEME_DEVELOPMENT', 'LIQUID', 'JAVASCRIPT'],
+    link: '',
+    isShareable: false,
+    video: marsDemo
   }
 ];
 
@@ -68,17 +81,15 @@ const ProjectCard = ({ proj, index }: { proj: typeof projects[0]; index: number 
       {/* @ts-ignore */}
       <CardWrapper
         {...extraProps}
-        className={`group flex flex-col justify-between h-full glass border-white/5 bg-white/[0.01] hover:bg-white/[0.02] hover:border-white/10 transition-all p-6 overflow-hidden relative cursor-pointer ${
-          !proj.isShareable ? 'cursor-default border-dashed border-white/10' : ''
-        }`}
+        className={`group flex flex-col justify-between h-full glass border-white/5 bg-white/[0.01] hover:bg-white/[0.02] hover:border-white/10 transition-all p-6 overflow-hidden relative cursor-pointer ${!proj.isShareable ? 'cursor-default border-dashed border-white/10' : ''
+          }`}
       >
         <div>
           {/* Meta details */}
           <div className="flex justify-between items-center mb-6 font-mono text-[10px] text-white/40">
             <span>PROJECT_INDEX: 0{index + 1} // {proj.category}</span>
-            <span className={`font-bold uppercase tracking-wider ${
-              proj.isShareable ? 'text-primary' : 'text-red-500 flex items-center gap-1.5'
-            }`}>
+            <span className={`font-bold uppercase tracking-wider ${proj.isShareable ? 'text-primary' : 'text-red-500 flex items-center gap-1.5'
+              }`}>
               {!proj.isShareable && <Lock size={10} />}
               {proj.metrics}
             </span>
@@ -194,17 +205,17 @@ export const ImmersiveProjects = () => {
         >
           {/* Subtle glow background */}
           <div className="absolute inset-0 bg-primary/[0.01] opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-          
+
           <div className="flex flex-col items-center">
             <div className="flex items-center space-x-2 text-[10px] font-mono text-primary mb-4 bg-primary/5 border border-primary/20 px-3 py-1 rounded-full">
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
               <span className="tracking-wider uppercase">Pipeline Active // More to Come</span>
             </div>
-            
+
             <h3 className="text-xl md:text-2xl font-bold tracking-tight text-white mb-3">
               ACTIVE DEVELOPMENT & FUTURISTIC SANDBOXES
             </h3>
-            
+
             <p className="text-muted-foreground text-xs md:text-sm leading-relaxed max-w-xl">
               Several new custom platforms, e-commerce storefronts, and cloud infrastructure systems are currently under active design and staging. Case studies will be unlocked as these production builds go live.
             </p>
